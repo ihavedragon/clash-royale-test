@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clash Royale Kişilik Testi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #f8f8f8;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .option {
+      display: block;
+      margin: 5px 0;
+    }
+    #result {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clash Royale Kişilik Testi</h1>
+  <div id="quiz"></div>
+  <button onclick="calculateResult()">Sonucu Gör</button>
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "Desteni nasıl seçersin?",
+        a: ["A", "B", "C", "D"]
+      },
+      {
+        q: "Maçı kaybettikten sonra ne yaparsın?",
+        a: ["A", "B", "C", "D"]
+      },
+      {
+        q: "Favori kartın hangisi?",
+        a: ["A", "B", "C", "D"]
+      },
+      {
+        q: "Oyuna ne kadar para bastın?",
+        a: ["A", "B", "C", "D"]
+      },
+      {
+        q: "Rakip seni emote ile kışkırttığında ne yaparsın?",
+        a: ["A", "B", "C", "D"]
+      },
+      {
+        q: "Telefonun %5 şarjla savaş ortasında kapanırsa?",
+        a: ["A - Kader böyleymiş", "B - Küfrederim ama devam", "C - Şarja takıp geri dönerim", "D - Lanet eder silerim"]
+      },
+      {
+        q: "Kuleye vuracakken biri savunma atarsa?",
+        a: ["A - Sakin kalırım, plan yaparım", "B - Deliririm lan ne alakası var", "C - Neyse deyip yoluma bakarım", "D - Emote spam + küfür"]
+      },
+      {
+        q: "Arkadaşın sana ""noob"" derse ne yaparsın?",
+        a: ["A - Güler geçerim", "B - Gıcık olurum ama belli etmem", "C - Ona da laf sokarım", "D - Hemen intikam planı"]
+      },
+      {
+        q: "Turnuvada son 1 galibiyet kala yenildin...",
+        a: ["A - Olur öyle, devam ederim", "B - Telefona kafa atarım", "C - Sessizce oyunu kapatırım", "D - Oyunu bırakırım bi süre"]
+      },
+      {
+        q: "Rakip 3 taş atıp ""Thanks!"" emote'u atarsa?",
+        a: ["A - Ben de gülücük atarım", "B - Direk sinirlenirim", "C - Rövanş isterim", "D - Ağzına sıçmak isterim"]
+      }
+    ];
+
+    const results = {
+      A: "🔥 META DİKTATÖRÜ 🔥<br>Kazanmak senin için ibadet. Ruhsuz, terli, hesapçı. Her maç sonunda emote spamlemeyi kutsal sayıyorsun.",
+      B: "🎪 EĞLENCE PAŞASI 🎪<br>Ciddi oynamıyorsun ama can yakıyorsun. Rakip seni anlamıyor çünkü sen de kendini anlamıyorsun.",
+      C: "🧓 KLASİK DİNOZOR 🧓<br>İlk çıktığından beri aynı desteyle oynuyorsun. Yavaşsın ama sağlamsın.",
+      D: "💸 CÜZDAN KRALI 💸<br>10 kupa kaybedince 300 TL yatırıyorsun. Ama o kartlar 14 seviye mi? Evet çünkü kral sensin."
+    };
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((q, i) => {
+      const container = document.createElement("div");
+      container.classList.add("question");
+
+      const title = document.createElement("h3");
+      title.innerText = `${i + 1}. ${q.q}`;
+      container.appendChild(title);
+
+      q.a.forEach(choice => {
+        const label = document.createElement("label");
+        label.classList.add("option");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `q${i}`;
+        input.value = choice[0];
+        label.appendChild(input);
+        label.append(` ${choice}`);
+        container.appendChild(label);
+      });
+
+      quizDiv.appendChild(container);
+    });
+
+    function calculateResult() {
+      let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+      for (let i = 0; i < questions.length; i++) {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected) {
+          scores[selected.value]++;
+        }
+      }
+
+      let top = "A";
+      for (const key in scores) {
+        if (scores[key] > scores[top]) top = key;
+      }
+
+      document.getElementById("result").innerHTML = results[top];
+    }
+  </script>
+</body>
+</html>
